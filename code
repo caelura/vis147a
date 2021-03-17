@@ -1,0 +1,173 @@
+// include the library code:
+#include <LiquidCrystal.h>
+#include <ezOutput.h>
+
+// initialize the library with the numbers of the interface pins
+LiquidCrystal lcd(8, 9, 10, 11, 12, 13); 
+
+//japanese characters used
+  char aa = 0x00+177;
+  char ii = 0x00+178;
+  char ee = 0x00+180;
+
+  char kaka = 0x00+182;
+  char kiki = 0x00+183;
+  char kuku = 0x00+184;
+  char keke = 0x00+185;
+
+  char shishi = 0x00+188;
+  char soso = 0x00+191;
+
+  char tata = 0x00+192;
+  char chichi = 0x00+193;
+  char tsutsu = 0x00+194;
+  char tete = 0x00+195;
+  char toto = 0x00+196;
+
+  char nini = 0x00+198;
+  char nono = 0x00+201; 
+
+  char fufu = 0x00+204;
+  
+  char momo = 0x00+211;
+
+  char yaya = 0x00+212;
+  char xyaya = 0x00+172;
+
+  char rara = 0x00+215;
+  char riri = 0x00+216;
+  char ruru = 0x00+217;
+  char rere = 0x00+218;
+
+  char ttdd = 0x00+222;
+  char marumaru = 0x00+223;
+
+//jp chars to string
+  String a = String(aa);
+  String i = String(ii);
+  String e = String(ee);
+
+  String ka = String(kaka);
+  String ki = String(kiki);
+  String ku = String(kuku);
+  String ke = String(keke);
+
+  String shi = String(shishi);
+  String so = String(soso);
+
+  String ta = String(tata);
+  String chi = String(chichi);
+  String tsu = String(tsutsu);
+  String te = String(tete);
+  String to = String(toto);
+
+  String ni = String(nini);
+  String no = String(nono); 
+
+  String fu = String(fufu);
+  
+  String mo = String(momo);
+
+  String ya = String(yaya);
+  String xya = String(xyaya);
+
+  String ra = String(rara);
+  String ri = String(riri);
+  String ru = String(ruru);
+  String re = String(rere);
+
+  String tt = String(ttdd);
+  String maru = String(marumaru);
+
+  //lyric lines
+  String line1 = String(ni + ke + tt + ta + tt + shi + ta + i + ki + mo + chi + ni + " Don't be cried");
+  String line2 = String(fu + tt + tsu + ke + te + ya + re + " " + so + no + fu + maru + ra + i + to + tt);
+  String line3 = String("Boot to heart yourself!");
+  String line4 = String("0" + to + "1" + ta + tt + ke + shi + tt + xya + " Can't stand it.  ");
+  String line5 = String(ku + ri + ka + e + shi + " " + ta + chi + a + ka + tt + ru + ta + tt + ke);
+
+  String title = String("CYBER-DIVE-CONNECTION     ");
+  String verse = String(line1 + "  " + line2 + "   " + line3 + "  " + line4 + "  " + line5 + "     ");
+
+  int titleLine = 0;
+  int verseLine = 1;
+  int tCursor = 0;
+  int vCursor = 0;
+
+  ezOutput led1(0);
+  ezOutput led2(1);
+  ezOutput led3(2);
+  ezOutput led4(3);
+
+void UpdateTitle(){
+  int tLength = title.length();
+
+  if (tCursor==(tLength - 1)){
+    tCursor = 0;
+  }
+  lcd.setCursor(0, titleLine);
+  if (tCursor < (tLength - 16)){
+    for (int iChar = tCursor; iChar < (tCursor + 16); iChar++){
+      lcd.print(title[iChar]);
+    }
+  }
+  else{
+    for (int iChar = tCursor; iChar < (tLength - 1); iChar++){
+      lcd.print(title[iChar]);
+    }
+    for (int oChar = 0; oChar <= 16 - (tLength - tCursor); oChar++){
+      lcd.print(title[oChar]);
+    }
+  }
+    tCursor++;
+}
+
+void UpdateDisplay(){
+  int vLength = verse.length();
+
+  if (vCursor==(vLength - 1)){
+    vCursor = 0;
+  }
+  lcd.setCursor(0, verseLine);
+  if (vCursor < (vLength - 16)){
+    for (int iChar = vCursor; iChar < (vCursor + 16); iChar++){
+      lcd.print(verse[iChar]);
+    }
+  }
+  else{
+    for (int iChar = vCursor; iChar < (vLength - 1); iChar++){
+      lcd.print(verse[iChar]);
+    }
+    for (int oChar = 0; oChar <= 16 - (vLength - vCursor); oChar++){
+      lcd.print(verse[oChar]);
+    }
+  }
+    vCursor++;
+    delay(200);
+}
+
+void setup() {
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16,2);
+
+  lcd.setCursor(0, 1);
+  lcd.print(line5);
+
+  led1.blink(1500, 100, 500);
+  led2.blink(500, 250, 750);
+  led3.blink(100, 100, 1000);
+  led4.blink(400, 300, 500);
+}
+
+void loop() {
+  UpdateTitle();
+  delay(500);
+
+  UpdateDisplay();
+  //delay(400);
+
+  led1.loop();
+  led2.loop();
+  led3.loop();
+  led4.loop();
+}
